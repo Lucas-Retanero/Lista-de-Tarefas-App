@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Lista-de-Tarefas",
+    "name": "Lista de Tarefas",
     "slug": "Lista-de-Tarefas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/icon-task-list.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.lucasretanero.ListadeTarefas"
     },
     "web": {
       "favicon": "./assets/icon-task-list.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7196f62a-3730-42d2-b021-5bbc5eebe8ae"
+      }
     }
   }
 }
