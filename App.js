@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, Keyboard, StatusBar } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, Platform, Keyboard, StatusBar } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function App() {
@@ -13,7 +13,12 @@ export default function App() {
     Keyboard.dismiss();
   };
 
-  const removerTarefa = (key, valor) => {
+const removerTarefa = (key, valor) => {
+  if (Platform.OS === 'web') {
+    if (window.confirm(`Deseja excluir a tarefa: "${valor}"?`)) {
+      setListaTarefas(listaTarefas.filter((t) => t.key !== key));
+    }
+  } else {
     Alert.alert(
       'Confirmar Exclusão',
       `Deseja excluir a tarefa: "${valor}"?`,
@@ -27,7 +32,8 @@ export default function App() {
       ],
       { cancelable: true }
     );
-  };
+  }
+};
 
   const mostrarTarefa = ({ item }) => (
     <View style={styles.tarefaContainer}>
