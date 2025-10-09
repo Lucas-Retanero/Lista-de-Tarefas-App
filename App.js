@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, Platform, Keyboard, StatusBar } from 'react-native';
+import { View, Text, TextInput, Pressable, FlatList, StyleSheet, Alert, Platform, Keyboard, StatusBar } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function App() {
@@ -13,37 +13,40 @@ export default function App() {
     Keyboard.dismiss();
   };
 
-const removerTarefa = (key, valor) => {
-  if (Platform.OS === 'web') {
-    if (window.confirm(`Deseja excluir a tarefa: "${valor}"?`)) {
-      setListaTarefas(listaTarefas.filter((t) => t.key !== key));
+  const removerTarefa = (key, valor) => {
+    if (Platform.OS === 'web') {
+      if (window.confirm(`Deseja excluir a tarefa: "${valor}"?`)) {
+        setListaTarefas(listaTarefas.filter((t) => t.key !== key));
+      }
+    } else {
+      Alert.alert(
+        'Confirmar Exclusão',
+        `Deseja excluir a tarefa: "${valor}"?`,
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Excluir',
+            onPress: () => setListaTarefas(listaTarefas.filter((t) => t.key !== key)),
+            style: 'destructive',
+          },
+        ],
+        { cancelable: true }
+      );
     }
-  } else {
-    Alert.alert(
-      'Confirmar Exclusão',
-      `Deseja excluir a tarefa: "${valor}"?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          onPress: () => setListaTarefas(listaTarefas.filter((t) => t.key !== key)),
-          style: 'destructive',
-        },
-      ],
-      { cancelable: true }
-    );
-  }
-};
+  };
 
   const mostrarTarefa = ({ item }) => (
     <View style={styles.tarefaContainer}>
       <Text style={styles.tarefaTexto}>{item.valor}</Text>
-      <TouchableOpacity
-        style={styles.botaoDeletar}
+      <Pressable
+        style={({ pressed }) => [
+          styles.botaoDeletar,
+          pressed && { opacity: 0.7 }
+        ]}
         onPress={() => removerTarefa(item.key, item.valor)}
       >
         <MaterialIcons name="delete-outline" size={24} color="#fff" />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 
@@ -62,13 +65,17 @@ const removerTarefa = (key, valor) => {
           onSubmitEditing={adicionarTarefa}
           returnKeyType="done"
         />
-        <TouchableOpacity
-          style={[styles.botaoAdicionar, !tarefa.trim() && styles.botaoDesativado]}
+        <Pressable
+          style={({ pressed }) => [
+            styles.botaoAdicionar,
+            !tarefa.trim() && styles.botaoDesativado,
+            pressed && { opacity: 0.7 }
+          ]}
           onPress={adicionarTarefa}
           disabled={!tarefa.trim()}
         >
           <MaterialIcons name="add" size={28} color="#FFFFFF" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={{ flex: 1 }}>
