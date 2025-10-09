@@ -6,7 +6,7 @@ Este aplicativo foi desenvolvido em React Native e tem como principal objetivo a
 
 <p align="center">
   <br>
-  <img src="./assets/icon-task-list.png" width="300">
+  <img src="./assets/icon-app-3.png" width="300">
   <br>
 </p>
 
